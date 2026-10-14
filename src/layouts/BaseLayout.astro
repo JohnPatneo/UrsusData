@@ -1,0 +1,107 @@
+---
+import { getImage } from "astro:assets";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import socialImageSource from "../assets/images/UrsusData.png";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  currentPage?: string;
+  noindex?: boolean;
+}
+
+const { title, description, currentPage = "", noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, "https://ursusdata.com");
+const socialImage = await getImage({
+  src: socialImageSource,
+  width: 1200,
+  format: "webp",
+});
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="UrsusData" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(socialImage.src, "https://ursusdata.com")} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(socialImage.src, "https://ursusdata.com")} />
+    {
+      currentPage === "home" && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "UrsusData",
+            legalName: "UrsusData LLC",
+            url: "https://ursusdata.com/",
+            logo: new URL(socialImage.src, "https://ursusdata.com").toString(),
+            telephone: "+1-307-429-4492",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "30 N Gould ST STE N",
+              addressLocality: "Sheridan",
+              addressRegion: "WY",
+              postalCode: "82801",
+              addressCountry: "US",
+            },
+          })}
+        />
+      )
+    }
+    <script
+      id="Cookiebot"
+      src="https://consent.cookiebot.com/uc.js"
+      data-cbid="9e01b366-87aa-4cec-a76c-25d558a6cc43"
+      data-blockingmode="auto"
+      type="text/javascript"
+    ></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <SiteHeader currentPage={currentPage} />
+      <slot />
+    </div>
+    <SiteFooter />
+    <script>
+      const animatedElements = document.querySelectorAll(".fade-up");
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15 },
+        );
+
+        animatedElements.forEach((element) => observer.observe(element));
+      } else {
+        animatedElements.forEach((element) => element.classList.add("visible"));
+      }
+    </script>
+  </body>
+</html>

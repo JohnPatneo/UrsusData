@@ -1,0 +1,145 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Contact UrsusData | Data & Analytics Solutions"
+  description="Contact UrsusData to discuss data engineering, analytics, business intelligence, data quality, and automation for your business."
+  currentPage="contact"
+>
+  <main>
+    <section class="hero">
+      <div class="fade-up">
+        <p class="eyebrow">Contact</p>
+        <h1>Let’s turn your data into something more valuable</h1>
+        <p class="lead">
+          Whether you are launching a new data initiative, modernizing an existing workflow, or
+          looking for stronger reporting and smarter automation, we can help you move from idea to
+          execution with clarity and momentum.
+        </p>
+      </div>
+    </section>
+    <section class="section contact-grid">
+      <div class="block fade-up">
+        <h2>Start a conversation</h2>
+        <p class="lead">
+          Reach out to <a class="contact-email" href="mailto:contact@ursusdata.com">contact@ursusdata.com</a> to request a
+          service, schedule a discovery call, or discuss a new initiative. We typically work with
+          founders, product teams, and growing organizations that want more reliable data, better
+          reporting, or simpler automation.
+        </p>
+        <ul class="list">
+          <li>Worldwide remote collaboration</li>
+          <li>Typical response time: 1–2 business days</li>
+          <li>Flexible engagements: data pipelines, analytics and reporting</li>
+          <li>Scalable solutions tailored to your business needs</li>
+          <li>Clear, practical, and data-driven approach</li>
+          <li>End-to-end support from data to actionable insights</li>
+        </ul>
+      </div>
+      <div class="block fade-up">
+        <h2>Tell us about your project</h2>
+        <p class="lead">
+          Share the context, goals, timeline, and any current pain points. We’ll follow up with
+          practical recommendations and clear next steps.
+        </p>
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" maxlength="100" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="message">Project brief</label>
+            <textarea id="message" name="message" maxlength="5000" placeholder="Tell us what you're building..." required></textarea>
+          </div>
+          <div class="form-trap" aria-hidden="true">
+            <label for="companyWebsite">Leave this field empty</label>
+            <input id="companyWebsite" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <button type="submit" class="btn btn-primary">Send project details</button>
+          <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  import emailjs from "@emailjs/browser";
+
+  const form = document.querySelector<HTMLFormElement>("#contactForm");
+  const status = document.querySelector<HTMLParagraphElement>("#formStatus");
+  const submitButton = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+  const honeypot = form?.querySelector<HTMLInputElement>('[name="company_website"]');
+  const cooldownKey = "ursusdata-contact-last-sent";
+  const minimumFillTimeMs = 3000;
+  const cooldownMs = 30000;
+  const serviceId = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID;
+  const templateId = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
+  const publicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY;
+
+  if (form && status && submitButton) {
+    if (!serviceId || !templateId || !publicKey) {
+      submitButton.disabled = true;
+      status.textContent =
+        "The online form is not configured yet. Please email contact@ursusdata.com directly.";
+    } else {
+      const startedAt = Date.now();
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        status.textContent = "";
+
+        if (honeypot?.value || Date.now() - startedAt < minimumFillTimeMs) {
+          status.textContent = "We could not verify this request. Please try again.";
+          return;
+        }
+
+        try {
+          const lastSent = Number(localStorage.getItem(cooldownKey) ?? 0);
+          if (lastSent && Date.now() - lastSent < cooldownMs) {
+            status.textContent = "Please wait a moment before sending another message.";
+            return;
+          }
+        } catch (error) {
+          console.warn("Contact form rate-limit storage is unavailable.", error);
+        }
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending…";
+
+        try {
+          const formData = new FormData(form);
+          await emailjs.send(
+            serviceId,
+            templateId,
+            {
+              name: String(formData.get("name") ?? ""),
+              email: String(formData.get("email") ?? ""),
+              message: String(formData.get("message") ?? ""),
+            },
+            { publicKey },
+          );
+          try {
+            localStorage.setItem(cooldownKey, Date.now().toString());
+          } catch (error) {
+            console.warn("Contact form rate-limit storage is unavailable.", error);
+          }
+          status.textContent = "Message sent. Thank you for reaching out.";
+          form.reset();
+        } catch (error) {
+          console.error("Contact form submission failed.", error);
+          status.textContent =
+            "We could not send your message. Please email contact@ursusdata.com directly.";
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = "Send project details";
+        }
+      });
+    }
+  }
+</script>

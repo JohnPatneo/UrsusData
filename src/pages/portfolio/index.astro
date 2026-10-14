@@ -1,0 +1,60 @@
+---
+import { Picture } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import platformImage from "../../assets/images/horizontal1.jpg";
+import automationImage from "../../assets/images/horizontal2.jpg";
+---
+
+<BaseLayout
+  title="Data & Analytics Portfolio | UrsusData"
+  description="Explore selected UrsusData projects and see how data engineering, analytics, and technology can deliver practical business results."
+  currentPage="portfolio"
+>
+  <main>
+    <section class="hero">
+      <div class="fade-up">
+        <p class="eyebrow">Portfolio</p>
+        <h1>Selected data solutions built for real-world challenges</h1>
+        <p class="lead">
+          From data pipelines and automated workflows to business intelligence and analytics, our
+          work focuses on turning complex data into reliable systems and actionable insights.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/contact/">Start a conversation</a>
+        </div>
+      </div>
+    </section>
+    <section class="section project-grid">
+      <article class="project-card fade-up">
+        <Picture
+          src={platformImage}
+          formats={["avif", "webp"]}
+          fallbackFormat="jpg"
+          alt="Visual representation of an integrated data platform"
+          width={800}
+          widths={[480, 800]}
+          sizes="(max-width: 700px) 100vw, 50vw"
+          loading="lazy"
+          decoding="async"
+        />
+        <h2>Data Platform</h2>
+        <p>A scalable data platform integrating multiple sources into a structured, reliable environment designed for analytics, reporting, and future growth.</p>
+      </article>
+      <article class="project-card fade-up">
+        <Picture
+          src={automationImage}
+          formats={["avif", "webp"]}
+          fallbackFormat="jpg"
+          alt="Visual representation of an automated data workflow"
+          width={800}
+          widths={[480, 800]}
+          sizes="(max-width: 700px) 100vw, 50vw"
+          loading="lazy"
+          decoding="async"
+        />
+        <h2>Data Automation</h2>
+        <p>An automated data workflow designed to validate, transform, and process large datasets while reducing manual work and improving data quality.</p>
+      </article>
+    </section>
+  </main>
+</BaseLayout>

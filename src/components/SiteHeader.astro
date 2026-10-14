@@ -1,0 +1,32 @@
+---
+interface Props {
+  currentPage: string;
+}
+
+const { currentPage } = Astro.props;
+const navigation = [
+  { label: "Home", href: "/", id: "home" },
+  { label: "About", href: "/about/", id: "about" },
+  { label: "Services", href: "/services/", id: "services" },
+  { label: "Portfolio", href: "/portfolio/", id: "portfolio" },
+  { label: "Contact", href: "/contact/", id: "contact" },
+];
+---
+
+<header class="site-header">
+  <a class="brand" href="/" aria-label="UrsusData home">
+    <img src="/favicon-32x32.png" alt="" class="brand-logo" width="22" height="22" />
+    UrsusData
+  </a>
+  <nav class="nav-links" aria-label="Main navigation">
+    {navigation.map(({ label, href, id }) => (
+      <a
+        href={href}
+        class:list={{ active: currentPage === id }}
+        aria-current={currentPage === id ? "page" : undefined}
+      >
+        {label}
+      </a>
+    ))}
+  </nav>
+</header>

@@ -1,0 +1,69 @@
+---
+import { Picture } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import dataImage from "../../assets/images/data.jpg";
+---
+
+<BaseLayout
+  title="About UrsusData"
+  description="Learn how UrsusData helps businesses turn complex data into reliable solutions through engineering, analytics, and technology."
+  currentPage="about"
+>
+  <main>
+    <section class="hero">
+      <div class="fade-up">
+        <p class="eyebrow">About UrsusData</p>
+        <h1>We make data clear, reliable, and useful</h1>
+        <p class="lead">
+          UrsusData helps businesses turn complex data into reliable solutions that support better
+          decisions, more efficient processes, and sustainable growth.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/contact/">Start a conversation</a>
+        </div>
+      </div>
+      <div class="panel fade-up">
+        <div class="panel-window">
+          <Picture
+            src={dataImage}
+            formats={["avif", "webp"]}
+            fallbackFormat="jpg"
+            alt="Abstract visualization of data and analytics"
+            width={900}
+            widths={[480, 900]}
+            sizes="(max-width: 700px) 100vw, 42vw"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </section>
+    <section class="section split">
+      <div class="block fade-up">
+        <h2>Our approach</h2>
+        <p class="lead">
+          We make complex data feel simple. Every engagement starts by understanding the business
+          challenge, and ends with a solution designed to deliver clear, measurable value.
+        </p>
+        <ul class="list">
+          <li>Business-focused solutions grounded in real goals, challenges, and opportunities.</li>
+          <li>Reliable data foundations built around quality, consistency, and scalability.</li>
+          <li>Practical analytics that turn data into insights people can actually use.</li>
+        </ul>
+      </div>
+      <div class="block fade-up">
+        <h2>What drives us</h2>
+        <p class="lead">
+          We love solving the gap between data and decision-making. Our work is at its best when
+          complex data becomes something clear, reliable, and genuinely useful for the people and
+          businesses working with it.
+        </p>
+        <ul class="list">
+          <li>Clear communication and close collaboration throughout every project.</li>
+          <li>Reliable systems designed to remain flexible as data and business needs evolve.</li>
+          <li>Long-term thinking with a constant focus on quality, efficiency, and detail.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

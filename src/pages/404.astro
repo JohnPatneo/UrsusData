@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="404 | Page Not Found — UrsusData"
+  description="The page you're looking for could not be found. Return to UrsusData and continue exploring data, analytics, and technology."
+  noindex={true}
+>
+  <main class="hero error-page">
+    <section class="error-card">
+      <p class="eyebrow">404 | Page not found</p>
+      <h1>This page is not available</h1>
+      <p class="lead">The link may be outdated or the page may have moved.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/">Return to UrsusData</a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

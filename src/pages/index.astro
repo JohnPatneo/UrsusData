@@ -1,0 +1,81 @@
+---
+import { Picture } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import homeImage from "../assets/images/UrsusData.png";
+---
+
+<BaseLayout
+  title="UrsusData | Data Engineering, Analytics & Business Intelligence"
+  description="UrsusData helps businesses turn complex data into reliable solutions through data engineering, analytics, business intelligence, and automation."
+  currentPage="home"
+>
+  <main>
+    <section class="hero">
+      <div class="fade-up">
+        <p class="eyebrow">Data That Drives Growth</p>
+        <h1>Turn data into better business solutions</h1>
+        <p class="lead">
+          UrsusData combines data engineering, analytics, and business intelligence to transform
+          complex data into reliable, actionable solutions that drive smarter decisions and
+          measurable results.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/contact/">Start a conversation</a>
+        </div>
+        <div class="metrics">
+          <div class="metric">
+            <strong>End-to-end data solutions</strong>
+            <p>From data collection and processing to analytics, we build solutions tailored to your business needs.</p>
+          </div>
+          <div class="metric">
+            <strong>Reliable data, every day</strong>
+            <p>We build robust pipelines and validation processes to ensure your data is accurate and consistent.</p>
+          </div>
+          <div class="metric">
+            <strong>100% data-driven</strong>
+            <p>We focus on turning your data into clear insights, efficient processes, and long-term business value.</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel fade-up">
+        <div class="panel-window">
+          <Picture
+            src={homeImage}
+            formats={["avif", "webp"]}
+            fallbackFormat="jpg"
+            alt="UrsusData brand artwork"
+            width={960}
+            widths={[480, 960]}
+            sizes="(max-width: 700px) 100vw, 42vw"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading fade-up">
+        <h2>What we do best</h2>
+      </div>
+      <div class="cards">
+        <article class="card fade-up">
+          <div class="icon" aria-hidden="true">01</div>
+          <h3>Data Engineering &amp; Integration</h3>
+          <p>We design and build scalable data pipelines that collect, transform, validate, and integrate data from multiple sources.</p>
+        </article>
+        <article class="card fade-up">
+          <div class="icon" aria-hidden="true">02</div>
+          <h3>Business Intelligence &amp; Analytics</h3>
+          <p>We turn complex datasets into clear dashboards, reports, and actionable insights that help businesses make better decisions.</p>
+        </article>
+        <article class="card fade-up">
+          <div class="icon" aria-hidden="true">03</div>
+          <h3>Data Quality &amp; Automation</h3>
+          <p>We improve data reliability through validation, cleansing, testing, and automation, reducing manual work and ensuring trusted information across your organization.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
