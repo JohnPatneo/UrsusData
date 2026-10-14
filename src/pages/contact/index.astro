@@ -82,6 +82,18 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
   const templateId = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
   const publicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY;
 
+  const getEmailJsErrorDetails = (
+    error: unknown,
+  ): { status: number; text: string } | null => {
+    if (typeof error !== "object" || error === null || !("status" in error) || !("text" in error)) {
+      return null;
+    }
+
+    return typeof error.status === "number" && typeof error.text === "string"
+      ? { status: error.status, text: error.text }
+      : null;
+  };
+
   if (form && status && submitButton) {
     if (!serviceId || !templateId || !publicKey) {
       submitButton.disabled = true;
@@ -113,17 +125,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
         submitButton.textContent = "Sending…";
 
         try {
-          const formData = new FormData(form);
-          await emailjs.send(
-            serviceId,
-            templateId,
-            {
-              name: String(formData.get("name") ?? ""),
-              email: String(formData.get("email") ?? ""),
-              message: String(formData.get("message") ?? ""),
-            },
-            { publicKey },
-          );
+          await emailjs.sendForm(serviceId, templateId, form, { publicKey });
           try {
             localStorage.setItem(cooldownKey, Date.now().toString());
           } catch (error) {
@@ -133,8 +135,10 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           form.reset();
         } catch (error) {
           console.error("Contact form submission failed.", error);
-          status.textContent =
-            "We could not send your message. Please email contact@ursusdata.com directly.";
+          const details = getEmailJsErrorDetails(error);
+          status.textContent = details
+            ? `EmailJS error ${details.status}: ${details.text}. Please email contact@ursusdata.com directly.`
+            : "We could not send your message. Please email contact@ursusdata.com directly.";
         } finally {
           submitButton.disabled = false;
           submitButton.textContent = "Send project details";
