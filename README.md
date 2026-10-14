@@ -15,19 +15,11 @@ Las paginas y componentes viven en `src/`; los archivos estaticos publicos se gu
 `public/`. Astro genera imagenes AVIF/WebP responsivas durante la compilacion a partir de
 los originales de `src/assets/images/`.
 
-El formulario de contacto usa EmailJS con el servicio `Test1234` y la plantilla `Template1234`;
-ambos identificadores y la clave publica se incluyen en el codigo del cliente, como requiere
-el envio desde un sitio estatico. Los campos del formulario (`name`, `email` y `message`)
-deben coincidir con los nombres de variables de la plantilla. El formulario incluye un campo
-honeypot, validacion de tiempo y un limite de envios por navegador; por ser un sitio estatico
-estas medidas no sustituyen la proteccion antispam del proveedor.
-
-En EmailJS, conecta el servicio de correo y configura la plantilla con las variables
-`{{name}}`, `{{email}}` y `{{message}}`; usa `{{email}}` como Reply-To y establece como
-destinatario el buzon que recibira las consultas. Autoriza `ursusdata.com` como origen,
-configura proteccion antispam y prueba un envio real tras publicar. La clave publica de
-EmailJS se entrega al navegador para enviar los mensajes: no es una contrasena; no publiques
-claves privadas ni credenciales del servicio de correo.
+El formulario de contacto no usa EmailJS ni otro servicio de envio. Al enviarlo, prepara un
+mensaje `mailto:` dirigido a `contact@ursusdata.com` en el programa de correo del visitante.
+El visitante debe revisar y enviar el mensaje desde ese programa; el navegador no puede
+enviarlo por su cuenta ni confirmar la entrega. No requiere claves ni configuracion de
+proveedores externos.
 
 La politica de privacidad y los terminos son textos informativos iniciales, no asesoramiento
 legal. Revisa su exactitud y adecuacion a tus servicios, proveedores y jurisdicciones antes
