@@ -15,20 +15,19 @@ Las paginas y componentes viven en `src/`; los archivos estaticos publicos se gu
 `public/`. Astro genera imagenes AVIF/WebP responsivas durante la compilacion a partir de
 los originales de `src/assets/images/`.
 
-El formulario de contacto usa EmailJS. Configura `EMAILJS_SERVICE_ID` y
-`EMAILJS_TEMPLATE_ID` en **Settings > Secrets and variables > Actions**, como Secrets o
-Variables. La clave publica esta incluida en el codigo porque EmailJS la considera publica y
-la expone al navegador. Sin el identificador del servicio o de la plantilla, el formulario
-queda desactivado y muestra el correo directo como alternativa. El formulario incluye un
-campo honeypot, validacion de tiempo y un limite de envios por navegador; por ser un sitio
-estatico estas medidas no sustituyen la proteccion antispam del proveedor.
+El formulario de contacto usa EmailJS con el servicio `Test1234` y la plantilla `Template1234`;
+ambos identificadores y la clave publica se incluyen en el codigo del cliente, como requiere
+el envio desde un sitio estatico. Los campos del formulario (`name`, `email` y `message`)
+deben coincidir con los nombres de variables de la plantilla. El formulario incluye un campo
+honeypot, validacion de tiempo y un limite de envios por navegador; por ser un sitio estatico
+estas medidas no sustituyen la proteccion antispam del proveedor.
 
 En EmailJS, conecta el servicio de correo y configura la plantilla con las variables
 `{{name}}`, `{{email}}` y `{{message}}`; usa `{{email}}` como Reply-To y establece como
 destinatario el buzon que recibira las consultas. Autoriza `ursusdata.com` como origen,
-activa la verificacion reCAPTCHA de EmailJS y prueba un envio real tras publicar. La clave
-publica de EmailJS se entrega al navegador para enviar los mensajes: no es una contrasena;
-no publiques claves privadas ni credenciales del servicio de correo.
+configura proteccion antispam y prueba un envio real tras publicar. La clave publica de
+EmailJS se entrega al navegador para enviar los mensajes: no es una contrasena; no publiques
+claves privadas ni credenciales del servicio de correo.
 
 La politica de privacidad y los terminos son textos informativos iniciales, no asesoramiento
 legal. Revisa su exactitud y adecuacion a tus servicios, proveedores y jurisdicciones antes
