@@ -31,7 +31,6 @@ jobs:
         env:
           PUBLIC_EMAILJS_SERVICE_ID: ${{ vars.EMAILJS_SERVICE_ID || secrets.EMAILJS_SERVICE_ID }}
           PUBLIC_EMAILJS_TEMPLATE_ID: ${{ vars.EMAILJS_TEMPLATE_ID || secrets.EMAILJS_TEMPLATE_ID }}
-          PUBLIC_EMAILJS_PUBLIC_KEY: ${{ vars.EMAILJS_PUBLIC_KEY || secrets.EMAILJS_PUBLIC_KEY }}
         run: npm run build
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3

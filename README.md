@@ -15,10 +15,10 @@ Las paginas y componentes viven en `src/`; los archivos estaticos publicos se gu
 `public/`. Astro genera imagenes AVIF/WebP responsivas durante la compilacion a partir de
 los originales de `src/assets/images/`.
 
-El formulario de contacto usa EmailJS. Antes de desplegarlo, crea las variables del
-repositorio `EMAILJS_SERVICE_ID`, `EMAILJS_TEMPLATE_ID` y `EMAILJS_PUBLIC_KEY` en **Settings >
-Secrets and variables > Actions > Variables**, y activa reCAPTCHA, limita los dominios
-permitidos y configura cuotas desde el panel de EmailJS. Sin estas variables el formulario
+El formulario de contacto usa EmailJS. Configura `EMAILJS_SERVICE_ID` y
+`EMAILJS_TEMPLATE_ID` en **Settings > Secrets and variables > Actions**, como Secrets o
+Variables. La clave publica esta incluida en el codigo porque EmailJS la considera publica y
+la expone al navegador. Sin el identificador del servicio o de la plantilla, el formulario
 queda desactivado y muestra el correo directo como alternativa. El formulario incluye un
 campo honeypot, validacion de tiempo y un limite de envios por navegador; por ser un sitio
 estatico estas medidas no sustituyen la proteccion antispam del proveedor.
