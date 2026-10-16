@@ -1,0 +1,222 @@
+---
+
+const logoUrl = "https://ursusdata.com/email-signature-logo.png";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Firma de correo | UrsusData LLC</title>
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <style>
+      :root {
+        font-family: Arial, Helvetica, sans-serif;
+        color: #172b42;
+        background: #f3f6fa;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+      }
+
+      body {
+        box-sizing: border-box;
+        min-height: 100vh;
+        margin: 0;
+        padding: 40px 20px;
+      }
+
+      main {
+        box-sizing: border-box;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 32px;
+        border: 1px solid #dce4ed;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 16px 40px rgb(23 43 66 / 8%);
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 22px;
+      }
+
+      .instructions {
+        margin: 0 0 24px;
+        color: #536579;
+        line-height: 1.5;
+      }
+
+      .signature-preview {
+        overflow-x: auto;
+        padding: 24px;
+        border: 1px solid #e5eaf0;
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .copy-button {
+        margin-top: 20px;
+        padding: 12px 18px;
+        border: 0;
+        border-radius: 6px;
+        background: #1264a3;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .copy-button:hover {
+        background: #0d4d80;
+      }
+
+      .copy-button:focus-visible {
+        outline: 3px solid #71c5f4;
+        outline-offset: 3px;
+      }
+
+      .copy-status {
+        min-height: 20px;
+        margin: 12px 0 0;
+        color: #176b46;
+        font-size: 14px;
+      }
+
+      @media (max-width: 520px) {
+        body {
+          padding: 20px 12px;
+        }
+
+        main {
+          padding: 20px 14px;
+        }
+
+        .signature-preview {
+          padding: 14px 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Firma de correo de UrsusData LLC</h1>
+      <p class="instructions">
+        Haz clic en «Copiar firma» y pégala en Gmail: <strong>Configuración → Ver todos los ajustes → General → Firma</strong>.
+      </p>
+
+      <div class="signature-preview">
+        <table
+          id="email-signature"
+          data-logo-url={logoUrl}
+          cellpadding="0"
+          cellspacing="0"
+          border="0"
+          style="border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;color:#172b42;"
+        >
+          <tbody>
+            <tr>
+              <td style="padding:0 18px 0 0;vertical-align:middle;">
+                <a href="https://ursusdata.com/" style="text-decoration:none;">
+                  <img
+                                  src="/email-signature-logo.png"
+                    width="112"
+                    height="112"
+                    alt="UrsusData"
+                    style="display:block;width:112px;height:112px;border:0;"
+                  />
+                </a>
+              </td>
+              <td style="width:2px;background-color:#1681bd;font-size:0;line-height:0;">&nbsp;</td>
+              <td style="padding:2px 0 2px 18px;vertical-align:middle;">
+                <div style="margin:0 0 3px;font-size:19px;line-height:1.3;font-weight:700;letter-spacing:0.2px;color:#10263d;">
+                  UrsusData LLC
+                </div>
+                <div style="margin:0 0 12px;font-size:12px;line-height:1.5;letter-spacing:1.5px;text-transform:uppercase;color:#1681bd;">
+                  Data. Insight. Impact.
+                </div>
+                <div style="margin:0 0 5px;font-size:13px;line-height:1.5;color:#34495e;">
+                  <a href="https://ursusdata.com/" style="color:#1264a3;text-decoration:none;">ursusdata.com</a>
+                </div>
+                <div style="margin:0 0 5px;font-size:13px;line-height:1.5;color:#34495e;">
+                  <a href="tel:+13074294492" style="color:#34495e;text-decoration:none;">+1 (307) 429-4492</a>
+                </div>
+                <div style="font-size:12px;line-height:1.5;color:#536579;">
+                  30 N Gould ST STE N, Sheridan, WY 82801
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <button class="copy-button" id="copy-signature" type="button">Copiar firma</button>
+      <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+    </main>
+
+    <script>
+      const signature = document.getElementById("email-signature");
+      const copyButton = document.getElementById("copy-signature");
+      const copyStatus = document.getElementById("copy-status");
+
+      if (!(signature instanceof HTMLTableElement) ||
+        !(copyButton instanceof HTMLButtonElement) ||
+        !(copyStatus instanceof HTMLParagraphElement)) {
+        throw new Error("No se pudo inicializar el copiado de la firma.");
+      }
+
+      const selectSignature = () => {
+        const selection = window.getSelection();
+        if (!selection) {
+          copyStatus.textContent = "No se pudo copiar. Selecciona la firma y cópiala manualmente.";
+          return;
+        }
+
+        const range = document.createRange();
+        range.selectNodeContents(signature);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        copyStatus.textContent = "La firma está seleccionada. Pulsa Ctrl+C (o ⌘+C) y pégala en Gmail.";
+      };
+
+      copyButton.addEventListener("click", async () => {
+        const plainText = signature.innerText;
+        const signatureForClipboard = signature.cloneNode(true);
+        if (!(signatureForClipboard instanceof HTMLTableElement)) {
+          copyStatus.textContent = "No se pudo copiar la firma. Recarga la página e inténtalo de nuevo.";
+          return;
+        }
+
+        const signatureLogo = signatureForClipboard.querySelector("img");
+        if (signatureLogo) {
+          const logoUrl = signature.dataset.logoUrl;
+          if (!logoUrl) {
+            copyStatus.textContent = "No se pudo cargar el logo. Recarga la página e inténtalo de nuevo.";
+            return;
+          }
+          signatureLogo.src = logoUrl;
+        }
+
+        try {
+          if (navigator.clipboard?.write && "ClipboardItem" in window) {
+            await navigator.clipboard.write([
+              new ClipboardItem({
+                "text/html": new Blob([signatureForClipboard.outerHTML], { type: "text/html" }),
+                "text/plain": new Blob([plainText], { type: "text/plain" }),
+              }),
+            ]);
+            copyStatus.textContent = "Firma copiada. Pégala ahora en Gmail.";
+            return;
+          }
+        } catch {
+          selectSignature();
+          return;
+        }
+
+        selectSignature();
+      });
+    </script>
+  </body>
+</html>
